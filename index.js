@@ -5,6 +5,12 @@ let conn = null;
 
 const uri = 'mongodb://stacy:stacygirl@ds035607.mlab.com:35607/testtom';
 
+// Make multiple table request via context
+// node
+// var t = require('./index.js')
+// t.handler(null, {"table":"notes"}, ()=>{} )
+// t.handler(null, {"table":"users"}, ()=>{} )
+
 exports.handler = function(event, context, callback) {
   // Make sure to add this so you can re-use `conn` between function calls.
   // See https://www.mongodb.com/blog/post/serverless-development-with-nodejs-aws-lambda-mongodb-atlas
@@ -21,7 +27,7 @@ exports.handler = function(event, context, callback) {
 function run(context) {
     console.log('start', conn);
 
-    return co(function*() {
+    return co(function*(conn) {
     // Because `conn` is in the global scope, Lambda may retain it between
     // function calls thanks to `callbackWaitsForEmptyEventLoop`.
     // This means your Lambda function doesn't have to go through the
